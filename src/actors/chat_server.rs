@@ -62,7 +62,7 @@ impl Handler<Connect> for ChatServer {
         self.sessions.insert(id, msg.addr);
 
         // broadcast join message to existin clients
-        let join_msg = format!("Client {} joined", id);
+        let join_msg = format!("User {} joined", id);
         self.broadcast_message(&join_msg, id);
 
         id

@@ -41,16 +41,12 @@ impl Handler<ChatMessage> for ChatSession {
     type Result = ();
 
     fn handle(&mut self, msg: ChatMessage, ctx: &mut Self::Context) {
-        // Forward the chat message to the WebSocket as text
+        // forward the chat message to the WebSocket as text
         ctx.text(msg.msg);
     }
 }
 
 //TODO: actually handle incoming messages
 impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for ChatSession {
-    fn handle(&mut self, msg: Result<ws::Message, ws::ProtocolError>, _ctx: &mut Self::Context) {
-        match msg {
-            _ => (),
-        }
-    }
+    fn handle(&mut self, _msg: Result<ws::Message, ws::ProtocolError>, _ctx: &mut Self::Context) {}
 }
