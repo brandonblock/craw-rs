@@ -1,6 +1,6 @@
 # Craw: A WebSocket-Based Chat Server
 
-**Craw** is a WebSocket-based chat server built with [Actix-Web](https://actix.rs/), designed to be a simple, extensible, learning platform for modern WebSocket and chat technologies. The project will support a Python CLI client [craw-py-client](github.com/brandonblock/craw-py-client) and a Rust WebAssembly client (future).
+**Craw** is a WebSocket-based chat server built with [Actix-Web](https://actix.rs/), designed to be a simple, extensible, learning experiment with WebSockets and the Actor model design pattern. The project will support a Python CLI client [craw-py-client](github.com/brandonblock/craw-py-client) and a Rust WebAssembly client (future).
 
 ## Features and Roadmap
 
@@ -11,11 +11,16 @@
   - Support basic broadcast messaging where all connected clients receive every message.
   - No persistence; messages are ephemeral.
 
-- [ ] **User Authentication**
+- [ ] **User Authentication/Accounts**
 
   - Introduce usernames and passwords for authentication.
   - Implement account creation workflow
   - Implement secure session management.
+
+- [ ] **Clients**
+
+  - Python CLI client
+  - Rust Wasm client
 
 - [ ] **Direct Messaging**
 

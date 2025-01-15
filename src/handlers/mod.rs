@@ -1,2 +1,4 @@
-mod ws;
-pub use ws::ws_handler;
+mod chat;
+mod echo;
+pub use chat::chat_handler;
+pub use echo::echo_handler;

@@ -2,7 +2,7 @@ use actix_web::{web, Error, HttpRequest, HttpResponse};
 use actix_ws::AggregatedMessage;
 use futures_util::StreamExt as _;
 
-pub async fn ws_handler(req: HttpRequest, stream: web::Payload) -> Result<HttpResponse, Error> {
+pub async fn echo_handler(req: HttpRequest, stream: web::Payload) -> Result<HttpResponse, Error> {
     let (response, mut session, stream) = actix_ws::handle(&req, stream)?;
 
     let mut stream = stream
