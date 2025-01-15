@@ -68,3 +68,11 @@ impl Handler<Connect> for ChatServer {
         id
     }
 }
+
+impl Handler<ChatMessage> for ChatServer {
+    type Result = ();
+
+    fn handle(&mut self, msg: ChatMessage, _: &mut Context<Self>) -> Self::Result {
+        ()
+    }
+}

@@ -1,6 +1,6 @@
 use actix::{
-    dev::ContextFutureSpawner, fut, Actor, ActorFutureExt, Addr, AsyncContext, Handler,
-    StreamHandler, WrapFuture,
+    dev::ContextFutureSpawner, fut, Actor, ActorContext, ActorFutureExt, Addr, AsyncContext,
+    Handler, StreamHandler, WrapFuture,
 };
 use actix_web_actors::ws;
 
@@ -48,5 +48,22 @@ impl Handler<ChatMessage> for ChatSession {
 
 //TODO: actually handle incoming messages
 impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for ChatSession {
-    fn handle(&mut self, _msg: Result<ws::Message, ws::ProtocolError>, _ctx: &mut Self::Context) {}
+    fn handle(&mut self, msg: Result<ws::Message, ws::ProtocolError>, ctx: &mut Self::Context) {
+        match msg {
+            Ok(ws::Message::Text(text)) => {
+                let message = text.to_string();
+
+                self.addr.do_send(ChatMessage {
+                    msg: message,
+                    id: self.id.unwrap_or(0),
+                });
+            }
+            Ok(ws::Message::Ping(msg)) => ctx.pong(&msg),
+            Ok(ws::Message::Close(reason)) => {
+                ctx.close(reason);
+                ctx.stop();
+            }
+            _ => (),
+        }
+    }
 }

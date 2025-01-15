@@ -11,7 +11,7 @@
   - Support basic broadcast messaging where all connected clients receive every message.
   - No persistence; messages are ephemeral.
 
-- [ ] **User Authentication**
+- [ ] **User Authentication/Accounts**
 
   - Introduce usernames and passwords for authentication.
   - Implement account creation workflow
