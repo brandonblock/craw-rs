@@ -5,7 +5,6 @@ use std::collections::HashMap;
 #[rtype(result = "usize")]
 pub struct Connect {
     pub addr: Recipient<ChatMessage>,
-    pub id: usize,
 }
 
 #[derive(Message)]
