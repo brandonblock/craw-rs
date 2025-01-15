@@ -6,7 +6,7 @@
 
 ### **Planned Features**
 
-- [ ] **Broadcast Messaging (MVP)**
+- [*] **Broadcast Messaging (MVP)**
 
   - Support basic broadcast messaging where all connected clients receive every message.
   - No persistence; messages are ephemeral.

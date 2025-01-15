@@ -46,7 +46,6 @@ impl Handler<ChatMessage> for ChatSession {
     }
 }
 
-//TODO: actually handle incoming messages
 impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for ChatSession {
     fn handle(&mut self, msg: Result<ws::Message, ws::ProtocolError>, ctx: &mut Self::Context) {
         match msg {
