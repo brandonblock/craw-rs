@@ -53,7 +53,7 @@ impl Handler<Connect> for ChatServer {
     // returns the assigned client ID
     type Result = usize;
 
-    fn handle(&mut self, msg: Connect, _: &mut Context<Self>) -> Self::Result {
+    fn handle(&mut self, msg: Connect, _ctx: &mut Context<Self>) -> Self::Result {
         // generate new client id
         let id = self.next_id;
         self.next_id += 1;
@@ -62,17 +62,28 @@ impl Handler<Connect> for ChatServer {
         self.sessions.insert(id, msg.addr);
 
         // broadcast join message to existin clients
-        let join_msg = format!("User {} joined", id);
+        let join_msg = format!("User {} has joined", id);
         self.broadcast_message(&join_msg, id);
 
         id
     }
 }
 
+impl Handler<Disconnect> for ChatServer {
+    type Result = ();
+
+    fn handle(&mut self, msg: Disconnect, _ctx: &mut Context<Self>) -> Self::Result {
+        self.sessions.remove(&msg.id);
+        let disconnect_message = format!("User {} has left.", msg.id);
+        self.broadcast_message(&disconnect_message, msg.id);
+    }
+}
+
 impl Handler<ChatMessage> for ChatServer {
     type Result = ();
 
-    fn handle(&mut self, msg: ChatMessage, _: &mut Context<Self>) -> Self::Result {
-        ()
+    fn handle(&mut self, msg: ChatMessage, _ctx: &mut Context<Self>) -> Self::Result {
+        let chat_message = format! {"{}: {}", msg.id, msg.msg};
+        self.broadcast_message(&chat_message, msg.id);
     }
 }

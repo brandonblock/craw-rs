@@ -4,7 +4,7 @@ use actix::{
 };
 use actix_web_actors::ws;
 
-use super::chat_server::{ChatMessage, ChatServer, Connect};
+use super::chat_server::{ChatMessage, ChatServer, Connect, Disconnect};
 
 pub struct ChatSession {
     id: Option<usize>,
@@ -51,19 +51,26 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for ChatSession {
     fn handle(&mut self, msg: Result<ws::Message, ws::ProtocolError>, ctx: &mut Self::Context) {
         match msg {
             Ok(ws::Message::Text(text)) => {
-                let message = text.to_string();
-
-                self.addr.do_send(ChatMessage {
-                    msg: message,
-                    id: self.id.unwrap_or(0),
-                });
+                let msg = text.to_string();
+                if let Some(id) = self.id {
+                    self.addr.do_send(ChatMessage { msg, id });
+                }
             }
             Ok(ws::Message::Ping(msg)) => ctx.pong(&msg),
             Ok(ws::Message::Close(reason)) => {
+                if let Some(id) = self.id {
+                    self.addr.do_send(Disconnect { id });
+                }
                 ctx.close(reason);
                 ctx.stop();
             }
             _ => (),
+        }
+    }
+
+    fn finished(&mut self, _ctx: &mut Self::Context) {
+        if let Some(id) = self.id {
+            self.addr.do_send(Disconnect { id });
         }
     }
 }
