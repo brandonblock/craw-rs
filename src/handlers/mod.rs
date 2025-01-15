@@ -1,2 +1,2 @@
-mod ws;
-pub use ws::ws_handler;
+mod echo;
+pub use echo::echo_handler;

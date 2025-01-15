@@ -16,7 +16,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .route("/health", web::get().to(health_check))
-            .route("/ws", web::get().to(handlers::ws_handler))
+            .route("/echo", web::get().to(handlers::echo_handler))
     })
     .bind(bind_address)?
     .run()
