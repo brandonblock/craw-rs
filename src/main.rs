@@ -1,5 +1,6 @@
 use actix_web::{web, App, HttpResponse, HttpServer};
 
+mod actors;
 mod handlers;
 
 async fn health_check() -> HttpResponse {
@@ -17,6 +18,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .route("/health", web::get().to(health_check))
             .route("/echo", web::get().to(handlers::echo_handler))
+            .route("/chat", web::get().to(handlers::chat_handler))
     })
     .bind(bind_address)?
     .run()
