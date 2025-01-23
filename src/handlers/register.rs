@@ -28,6 +28,7 @@ pub async fn register_handler(
         hash,
     ).fetch_one(pool.get_ref()).await;
 
+    //TODO: return JWT
     match result {
         Ok(user) => HttpResponse::Created().json(user),
         Err(sqlx::Error::Database(err)) if err.constraint() == Some("users_username_key") => {

@@ -1,10 +1,12 @@
 use actix::Actor;
 use actix_web::{web, App, HttpResponse, HttpServer};
+use actix_web_httpauth::middleware::HttpAuthentication;
 use sqlx::postgres::PgPoolOptions;
 use std::env;
 
 mod actors;
 mod handlers;
+mod middleware;
 mod models;
 
 async fn health_check(db: web::Data<sqlx::PgPool>) -> HttpResponse {
@@ -41,7 +43,11 @@ async fn main() -> std::io::Result<()> {
             .route("/health", web::get().to(health_check))
             .route("/register", web::post().to(handlers::register_handler))
             .route("/echo", web::get().to(handlers::echo_handler))
-            .route("/chat", web::get().to(handlers::chat_handler))
+            .service(
+                web::scope("/chat")
+                    .wrap(HttpAuthentication::bearer(middleware::auth_middleware))
+                    .route("", web::get().to(handlers::chat_handler)),
+            )
     })
     .bind(bind_address)?
     .run()
