@@ -30,6 +30,13 @@ pub async fn register_handler(
 
     match result {
         Ok(user) => HttpResponse::Created().json(user),
-        Err(_) => HttpResponse::BadRequest().body("Username alreay exists"),
+        Err(sqlx::Error::Database(err)) if err.constraint() == Some("users_username_key") => {
+            HttpResponse::Conflict().json(serde_json::json!({
+                "error": "Username already exists"
+            }))
+        }
+        Err(_) => HttpResponse::InternalServerError().json(serde_json::json!({
+            "error": "Failed to create user"
+        })),
     }
 }
