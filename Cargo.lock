@@ -555,7 +555,9 @@ dependencies = [
  "actix-web-actors",
  "actix-ws",
  "argon2",
+ "dotenv",
  "futures-util",
+ "rand",
  "serde",
  "sqlx",
  "tokio",
@@ -683,6 +685,12 @@ dependencies = [
  "quote",
  "syn 2.0.96",
 ]
+
+[[package]]
+name = "dotenv"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77c90badedccf4105eca100756a0b1289e191f6fcbdadd3cee1d2f614f97da8f"
 
 [[package]]
 name = "dotenvy"
@@ -2222,6 +2230,7 @@ version = "1.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b3758f5e68192bb96cc8f9b7e2c2cfdabb435499a28499a42f8f984092adad4b"
 dependencies = [
+ "getrandom",
  "serde",
 ]
 
