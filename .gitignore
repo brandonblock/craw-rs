@@ -1,1 +1,6 @@
 /target
+/tools
+.cursorrules
+scratchpad.*
+/venv
+requirements.txt

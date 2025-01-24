@@ -42,6 +42,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(db_pool.clone()))
             .route("/health", web::get().to(health_check))
             .route("/register", web::post().to(handlers::register_handler))
+            .route("/login", web::post().to(handlers::login_handler))
             .route("/echo", web::get().to(handlers::echo_handler))
             .service(
                 web::scope("/chat")
